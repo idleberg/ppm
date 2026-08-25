@@ -299,8 +299,10 @@ have published it.\
       let currentBranch, remoteName, upstreamUrl;
       const currentDirectory = process.cwd();
 
+      // Git.open() walks up from the current directory, so this also succeeds
+      // from a subdirectory of the repository (e.g. a workspace package).
       const repo = Git.open(currentDirectory);
-      if (!(repo != null ? repo.isWorkingDirectory(currentDirectory) : undefined)) {
+      if (repo == null) {
         throw new Error('Package must be in a Git repository before publishing: https://help.github.com/articles/create-a-repo');
       }
 
